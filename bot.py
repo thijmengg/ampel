@@ -6,6 +6,7 @@ from discord.ext import commands
 from Cogs.Logic.help import HelpCog
 from Cogs.CustomCommands.cc import CustomCommands as CC
 from Database.Preperation import Init
+from Cogs.Logic.ideas import add_invoice
 
 intents = discord.Intents.all()
 
@@ -24,6 +25,7 @@ async def on_ready():
     await client.add_cog(HelpCog(client))
     await client.add_cog(CC(client))
     await client.add_cog(Init(client))
+    await client.add_cog(add_invoice(client))
     print("Ampel family is ready to serve!")
 	
 

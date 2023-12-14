@@ -5,6 +5,8 @@ help_general_string = """
 Commands you can use: \n
 .help <command> \t - Om specifieke informatie te krijgen over een command! 
 .cc <command_naam> <reactie> \t - Maak een eigen command
+.cclist \t - Krijg een complete lijst met alle custom commands en de reacties!
+.idee \t - Heb jij een goed idee voor de bot? Of een fout gevonden, volg dan deze link.
 """
 
 help_help_string = """
