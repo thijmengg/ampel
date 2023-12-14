@@ -10,6 +10,7 @@ class CustomCommands(commands.Cog):
     
     @commands.command()
     async def cc (self, ctx, command_name, *,output='\0'):
+        """Add or response to a custom command"""
         admin_role = discord.utils.get(ctx.guild.roles, name="Admin")
         conn = sqlite3.connect("customCommands.db")
         cur = conn.cursor()
@@ -46,6 +47,7 @@ class CustomCommands(commands.Cog):
 
     @commands.command()
     async def cclist(self, ctx):
+        """Lists all custom commands made"""
         embed = discord.Embed(color=discord.Color.green())
         conn = sqlite3.connect('customCommands.db')
         cur = conn.cursor()
