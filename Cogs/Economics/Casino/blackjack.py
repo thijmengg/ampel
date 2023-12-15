@@ -155,8 +155,9 @@ class blackjack(commands.Cog):
                             newembed.add_field(name="Winst", value=f"Je hebt €{bet * 2} gewonnen!", inline=False)
 
                             newembed.add_field(name="Gewonnen", value="Gefeliciteerd, je hebt 21! Dit betekend dat je 2x je inleg krijgt!")
-                            cur.execute(f"UPDATE economic SET bal = {current_player_amount + bet * 2} WHERE user_id = {ctx.author.id}")
+                            cur.execute(f"UPDATE economic SET bal = {current_player_amount + bet * 2} WHERE user_id = '{ctx.author.id}'")
                             conn.commit()
+
                             await ctx.channel.send(embed=embed)
 
                             return
