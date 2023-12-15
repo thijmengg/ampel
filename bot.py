@@ -7,6 +7,10 @@ from Cogs.Logic.help import HelpCog
 from Cogs.CustomCommands.cc import CustomCommands as CC
 from Database.Preperation import Init
 from Cogs.Logic.ideas import add_invoice
+from Cogs.Economics.user_info import user_info
+from Cogs.Economics.work import work
+from Cogs.Economics.money_transfers import money_transfer
+from Cogs.Listeners.cooldown import cooldown_listener
 
 from get_key import get_key
 
@@ -32,6 +36,10 @@ async def on_ready():
     await client.add_cog(CC(client))
     await client.add_cog(Init(client))
     await client.add_cog(add_invoice(client))
+    await client.add_cog(user_info(client))
+    await client.add_cog(work(client))
+    await client.add_cog(money_transfer(client))
+    await client.add_cog(cooldown_listener(client))
     # embed = discord.Embed(color=discord.Color.gold())
     # embed.add_field(name="SERVER IS ONLINE", value=announcement)
     # await client.get_channel(809840856739479653).send(embed=embed)

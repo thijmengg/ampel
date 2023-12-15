@@ -135,6 +135,7 @@ class Init(commands.Cog):
             await ctx.channel.send(f"Database with name {arg} can't be found. Are you sure it's alright?")
     
     @commands.command(pass_context=True)
+    @commands.has_role("Admin")
     async def start(self, ctx, arg='all'):
         """Register user to all databases"""
         # Checking if user already registered in DB
