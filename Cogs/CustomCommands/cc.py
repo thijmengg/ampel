@@ -12,7 +12,7 @@ class CustomCommands(commands.Cog):
     async def cc (self, ctx, command_name, *,output='\0'):
         """Add or response to a custom command"""
         admin_role = discord.utils.get(ctx.guild.roles, name="Admin")
-        conn = sqlite3.connect("customCommands.db")
+        conn = sqlite3.connect("Ampel.db")
         cur = conn.cursor()
         command_name = command_name.lower()
         if command_name == 'delete':
@@ -49,7 +49,7 @@ class CustomCommands(commands.Cog):
     async def cclist(self, ctx):
         """Lists all custom commands made"""
         embed = discord.Embed(color=discord.Color.green())
-        conn = sqlite3.connect('customCommands.db')
+        conn = sqlite3.connect('Ampel.db')
         cur = conn.cursor()
         cmds = cur.execute("SELECT command, response FROM CC").fetchall()
         count = 1
