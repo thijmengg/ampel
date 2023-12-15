@@ -7,6 +7,7 @@ Commands you can use: \n
 .cc <command_naam> <reactie> \t - Maak een eigen command
 .cclist \t - Krijg een complete lijst met alle custom commands en de reacties!
 .idee \t - Heb jij een goed idee voor de bot? Of een fout gevonden, volg dan deze link.
+.start <index> \t - Registreer je in de Ampel Familie database en start met het spelen van alle spellen.
 """
 
 help_help_string = """
@@ -31,6 +32,11 @@ Beperkingen:
 help_error = """
 Oepsiepoepsie het lijkt erop dat er iets fout is gegaan! Controleer de spelling eventjes. En anders raadpleeg een botdeveloper eventjes.
 """
+help_start = """
+.start \t | Om jezelf aan te melden voor alle databases van Ampel familie. Je hoeft verder niks te doen, alleen .start
+.start user \t | Om jezelf handmatig te registreren voor de gebruikers database van de Ampel familie
+.start eco \t | Om jezelf handmatig te regisreren voor de economie database, dan kun je ook starten met het spelen van alle economie spellen
+"""
 
 class HelpCog(commands.Cog):
     def __init__(self, bot):
@@ -45,6 +51,8 @@ class HelpCog(commands.Cog):
             string_embed.add_field(name="Help - help", value=help_help_string)
         elif args == 'cc':
             string_embed.add_field(name= "Help - Custom Commands", value = help_cc_string)
+        elif args == 'start':
+            string_embed.add_field(name="Help - start", value=help_start)
         else:
             string_embed.add_field(name="Help - Error", value = help_error)
         
