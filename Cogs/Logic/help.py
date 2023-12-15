@@ -37,7 +37,11 @@ help_start = """
 .start user \t | Om jezelf handmatig te registreren voor de gebruikers database van de Ampel familie
 .start eco \t | Om jezelf handmatig te regisreren voor de economie database, dan kun je ook starten met het spelen van alle economie spellen
 """
-
+help_eco = """
+.zoekwerklist \t| Krijg een compleet overzicht met alle mogelijke banen
+.zoek_werk <baan> | Soliciteer bij een baan, foute spelling = geen baan
+.werk | Ga werken bij je baan, heb je nog geen baan zoek er dan eerst één, anders wordt het bedelen.
+"""
 class HelpCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -53,6 +57,8 @@ class HelpCog(commands.Cog):
             string_embed.add_field(name= "Help - Custom Commands", value = help_cc_string)
         elif args == 'start':
             string_embed.add_field(name="Help - start", value=help_start)
+        elif args == 'eco':
+            string_embed.add_field(name="Help - economie", value=help_eco)
         else:
             string_embed.add_field(name="Help - Error", value = help_error)
         
