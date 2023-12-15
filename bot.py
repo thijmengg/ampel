@@ -11,6 +11,10 @@ from Cogs.Economics.user_info import user_info
 from Cogs.Economics.work import work
 from Cogs.Economics.money_transfers import money_transfer
 from Cogs.Listeners.cooldown import cooldown_listener
+from Cogs.Economics.Casino.blackjack import blackjack
+from Cogs.Random_commands import gay
+
+
 
 from get_key import get_key
 
@@ -40,6 +44,13 @@ async def on_ready():
     await client.add_cog(work(client))
     await client.add_cog(money_transfer(client))
     await client.add_cog(cooldown_listener(client))
+    await client.add_cog(blackjack(client))
+
+
+    #In construction
+    # await client.add_cog(gay(client))
+
+
     # embed = discord.Embed(color=discord.Color.gold())
     # embed.add_field(name="SERVER IS ONLINE", value=announcement)
     # await client.get_channel(809840856739479653).send(embed=embed)

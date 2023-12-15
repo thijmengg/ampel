@@ -16,3 +16,7 @@ class cooldown_listener(commands.Cog):
             seconds = cd%60
             error_embed.add_field(name="Wachttijd", value=f"Je kunt dit over {minutes:.0f} minuten en {seconds:.0f} seconden doen")
             await ctx.channel.send(embed=error_embed)
+        elif isinstance(error, commands.MaxConcurrencyReached):
+            error_embed = discord.Embed(title="Je bent al bezig!", color=discord.Color.red(), description="Je bent al bezig met deze activiteit!")
+            await ctx.channel.send(embed = error_embed)
+            return

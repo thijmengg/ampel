@@ -39,8 +39,23 @@ help_start = """
 """
 help_eco = """
 .zoekwerklist \t| Krijg een compleet overzicht met alle mogelijke banen
-.zoek_werk <baan> | Soliciteer bij een baan, foute spelling = geen baan
-.werk | Ga werken bij je baan, heb je nog geen baan zoek er dan eerst één, anders wordt het bedelen.
+.zoek_werk <baan> \t| Soliciteer bij een baan, foute spelling = geen baan
+.werk \t| Ga werken bij je baan, heb je nog geen baan zoek er dan eerst één, anders wordt het bedelen.
+.bal \t| Zie jou balans
+.bal <user> \t| Zie de balans van iemand anders
+"""
+
+help_casino = """
+Alle casino games zijn:
+.bj <inleg> \t| Speel blackjack tegen de computer!
+"""
+
+help_bj = """
+Regels van blackjack (deze versie!):
+- De A is 11 punten waard en is niet in te splitsen in een 1 en 11.
+- 21 voor jou? Goedzo, je krijgt nu 2x inleg als winst terug.
+
+- Gokverslaafd? Klinkt niet als mijn probleem! (Zolang je het maar bij mij houdt is alles goed <3)
 """
 class HelpCog(commands.Cog):
     def __init__(self, bot):
@@ -59,6 +74,10 @@ class HelpCog(commands.Cog):
             string_embed.add_field(name="Help - start", value=help_start)
         elif args == 'eco':
             string_embed.add_field(name="Help - economie", value=help_eco)
+        elif args == 'casino':
+            string_embed.add_field(name="Help - Casino", value=help_casino)
+        elif args == 'bj':
+            string_embed.add_field(name="Help - Blackjack", value=help_bj)
         else:
             string_embed.add_field(name="Help - Error", value = help_error)
         
