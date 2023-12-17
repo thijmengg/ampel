@@ -133,11 +133,12 @@ class work(commands.Cog):
         else:
             embed = discord.Embed(title="Nog geen account", description="Je moet eerst een account maken bij economics. Gebruik `.help start` om te kijken hoe.", color=discord.Color.red())
             await ctx.channel.send(embed=embed)
-        @commands.command()
-        async def zoekwerklist(self, ctx):
-            embed = discord.Embed(title="Lijst met werk",color=discord.Color.blue())
-            embed.add_field(name="Beschikbare banen", value=possible_jobs)
-            await ctx.channel.send(embed=embed)
+        
+    @commands.command()
+    async def zoekwerklist(self, ctx):
+        embed = discord.Embed(title="Lijst met werk",color=discord.Color.blue())
+        embed.add_field(name="Beschikbare banen", value=possible_jobs)
+        await ctx.channel.send(embed=embed)
             
     
             

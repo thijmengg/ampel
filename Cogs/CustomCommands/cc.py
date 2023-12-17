@@ -27,6 +27,11 @@ class CustomCommands(commands.Cog):
                     await ctx.channel.send(f"De command '{output}' is verwijderd!")
                 else:
                     await ctx.channel.send("Sorry, deze command bestaat niet, probeer het alsjeblieft opnieuw!")
+            else:
+                embed = discord.Embed(title="Dictatuur!", color=discord.Color.red())
+                embed.add_field(name="Je hebt niet het recht dit te doen", value="Oeps, het lijkt erop dat je dit niet mag doen. Vraag een Admin om een specifieke command te verwijderen.")
+                await ctx.channel.send(embed=embed)
+
         elif (cur.execute(f"SELECT COUNT(*) FROM CC WHERE command='{command_name}'").fetchall()[0][0] != 0):
             await ctx.channel.send(cur.execute(f"SELECT response FROM CC WHERE command='{command_name}'").fetchall()[0][0])
         else:
