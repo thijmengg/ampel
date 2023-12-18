@@ -75,7 +75,7 @@ class money_transfer(commands.Cog):
     @commands.command()
     async def geef(self, ctx, user: discord.Member, amount: int):
         if user.id == ctx.author.id:
-            embed = discord.Embed(title="Jij boefje", description="Je mag niet van jezelf stelen", color=discord.Color.red())
+            embed = discord.Embed(title="Dit kan niet", description="Je kunt jezelf geen geld geven!", color=discord.Color.red())
             await ctx.channel.send(embed=embed)
         else:
             if (has_eco_account(ctx.author.id)):
@@ -84,12 +84,17 @@ class money_transfer(commands.Cog):
                     q = f"""SELECT bal FROM economic WHERE user_id = '{user.id}'"""
                     result = cur.execute(q)
                     receivers_amounts = result.fetchall()
-                    receivers_amount = receivers_amounts[0][0]
+                    current_receivers_amount = receivers_amounts[0][0]
                     u = f"""SELECT bal FROM economic WHERE user_id = '{ctx.author.id}'"""
                     result2 = cur.execute(u)
                     own_amounts = result2.fetchall()
                     own_amount = own_amounts[0][0]
                     embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
+                    print(f"""
+                    eigen amount: €{own_amount},
+                    receivers amount: €{current_receivers_amount},
+                    amount: €{amount}
+                    """)
                     if amount > own_amount:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet meer geven dan je hebt!", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
@@ -98,8 +103,11 @@ class money_transfer(commands.Cog):
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet minder dan 1 euro geven", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
                     else:
-                        cur.execute(f"UPDATE economic SET bal = {own_amount - amount} WHERE user_id = '{ctx.author.id}'")
-                        cur.execute(f"UPDATE economic SET bal = {receivers_amount + amount} WHERE user_id = '{ctx.author.id}'")
+                        new_receivers_amount = current_receivers_amount + amount
+                        new_owners_amount = own_amount - amount
+                        cur.execute(f"UPDATE economic SET bal = {new_owners_amount} WHERE user_id = '{ctx.author.id}'")
+                        conn.commit()
+                        cur.execute(f"UPDATE economic SET bal = {new_receivers_amount} WHERE user_id = '{user.id}'")
                         conn.commit()
                         await ctx.channel.send(embed=embed)
                 else:
