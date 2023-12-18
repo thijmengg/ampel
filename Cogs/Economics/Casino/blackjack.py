@@ -131,7 +131,7 @@ class blackjack(commands.Cog):
                                 embed = discord.Embed(title="Niet op tijd!", description="Je moet binnen 60 seconden een reactie geven.", color=discord.Color.red())
                                 await ctx.channel.send(embed=embed)
                                 return
-                        else:
+                        elif player_points >21:
                             newembed=discord.Embed(title="Verloren :(", color=discord.Color.red())
 
                             newembed.add_field(name="Dealers hand!", value=f"Dealer heeft: {dealers_points} punten", inline=False) 
@@ -146,6 +146,21 @@ class blackjack(commands.Cog):
                             conn.commit()
                             await ctx.channel.send(embed=newembed) 
                             return 
+                        else:
+                            newembed=discord.Embed(title="Gewonnen🥳", color=discord.Color.green())
+
+                            newembed.add_field(name="Dealers hand!", value=f"Dealer heeft: {dealers_points} punten", inline=False) 
+                            newembed.add_field(name="Jou hand!", value=f"Je hebt: {player_points} punten", inline=False)            
+
+                            newembed.add_field(name="Winst", value=f"Je hebt €{bet * 2} gewonnen!", inline=False)
+
+                            newembed.add_field(name="Gewonnen", value="Gefeliciteerd, je hebt 21! Dit betekend dat je 2x je inleg krijgt!")
+                            cur.execute(f"UPDATE economic SET bal = {current_player_amount + bet * 2} WHERE user_id = '{ctx.author.id}'")
+                            conn.commit()
+
+                            await ctx.channel.send(embed=embed)
+
+                            return
 
                     #Here you are <= 21 and dealer = 1 card
                     if points_of_hand(players_hand) == 21:
@@ -157,6 +172,8 @@ class blackjack(commands.Cog):
                         newembed.add_field(name="Winst", value=f"Je hebt €{bet * 2} gewonnen!", inline=False)
 
                         newembed.add_field(name="Gewonnen", value="Gefeliciteerd, je hebt 21! Dit betekend dat je 2x je inleg krijgt!")
+                        cur.execute(f"UPDATE economic SET bal = {current_player_amount + bet * 2} WHERE user_id = {ctx.author.id}")
+                        conn.commit()
                         await ctx.channel.send(embed=embed)
                     else:
                         while points_of_hand(dealers_hand) < 17:
