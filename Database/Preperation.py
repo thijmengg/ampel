@@ -60,6 +60,22 @@ def create_eco_database():
     db.commit()
     cursor.close()
 
+def create_bj_database():
+    db = sqlite3.connect('Ampel.db')
+    cursor = db.cursor()
+    q = """CREATE TABLE IF NOT EXISTS blackjack (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        bet INT,
+        is_in_game BOOL,
+        games_won INT,
+        games_lost INT,
+        FOREIGN KEY (user_id) REFERENCES users(discord_id) ON UPDATE CASCADE ON DELETE CASCADE ON INSERT CASCADE
+    )
+    """
+    cursor.execute(q)
+    db.commit()
+    cursor.close()
 
 def insert_user(id, name):
     conn = sqlite3.connect("Ampel.db")
@@ -122,6 +138,8 @@ class Init(commands.Cog):
             create_user_database()
             await ctx.channel.send("Creating Eco Database...")
             create_eco_database()
+            await ctx.channel.send("Creating Blackjack Database...")
+            create_bj_database()
             await ctx.channel.send("Databases are created!")
         elif arg == 'users':
             await ctx.channel.send("Creating User Database...")
@@ -131,6 +149,11 @@ class Init(commands.Cog):
             await ctx.channel.send("Creating Eco Database...")
             create_eco_database()
             await ctx.channel.send("Database is created!")
+        elif arg == 'bj':
+            await ctx.channel.send("Creating Blackjack Database...")
+            create_bj_database()
+            await ctx.channel.send("Database is created!")
+
         else:
             await ctx.channel.send(f"Database with name {arg} can't be found. Are you sure it's alright?")
     
