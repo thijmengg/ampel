@@ -69,6 +69,22 @@ class blackjack(commands.Cog):
                         5. Dealers do a soft 17
                         6. If player wins, their bet gets dubbled. Else they lose their bet
                     """
+
+                    if player_points == 21:
+                        newembed=discord.Embed(title="Gewonnen🥳", color=discord.Color.green())
+
+                        newembed.add_field(name="Dealers hand!", value=f"Dealer heeft: {dealers_points} punten", inline=False) 
+                        newembed.add_field(name="Jou hand!", value=f"Je hebt: {player_points} punten", inline=False)            
+
+                        newembed.add_field(name="Winst", value=f"Je hebt €{bet * 2} gewonnen!", inline=False)
+
+                        newembed.add_field(name="Gewonnen", value="Gefeliciteerd, je hebt 21! Dit betekend dat je 2x je inleg krijgt!")
+                        cur.execute(f"UPDATE economic SET bal = {current_player_amount + bet * 2} WHERE user_id = '{ctx.author.id}'")
+                        conn.commit()
+
+                        await ctx.channel.send(embed=embed)
+                        return
+
                     embed=discord.Embed(title="BlackJack!", color=discord.Color.yellow())
 
                     embed.add_field(name="Dealers hand!", value=f"Dealer heeft: {dealers_points} punten", inline=False) 
