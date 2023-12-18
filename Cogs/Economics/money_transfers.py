@@ -72,5 +72,38 @@ class money_transfer(commands.Cog):
                 embed = discord.Embed(title="Status error", description=f"{user.mention} heeft nog geen account in de economie.", color=discord.Color.red())
                 await ctx.channel.send(embed=embed)
 
+    @commands.command()
+    async def geef(self, ctx, user: discord.Member, amount: int):
+        if user.id == ctx.author.id:
+            embed = discord.Embed(title="Jij boefje", description="Je mag niet van jezelf stelen", color=discord.Color.red())
+            await ctx.channel.send(embed=embed)
+        else:
+            if (has_eco_account(ctx.author.id)):
+                if(has_eco_account(user.id)):
+                    cur = conn.cursor()
+                    q = f"""SELECT bal FROM economic WHERE user_id = '{user.id}'"""
+                    result = cur.execute(q)
+                    receivers_amounts = result.fetchall()
+                    receivers_amount = receivers_amounts[0][0]
+                    u = f"""SELECT bal FROM economic WHERE user_id = '{ctx.author.id}'"""
+                    result2 = cur.execute(u)
+                    own_amounts = result2.fetchall()
+                    own_amount = own_amounts[0][0]
+                    embed = discord.Embed(title="Gegund", color=discord.Color.purple())
+                    if amount > own_amount:
+                        error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet meer geven dan je hebt!", color=discord.Color.red())
+                        ctx.channel.send(embed=error_embed)
+                        return
+                    cur.execute(f"UPDATE economic SET bal = {own_amount - amount} WHERE user_id = '{ctx.author.id}'")
+                    cur.execute(f"UPDATE economic SET bal = {receivers_amount + amount} WHERE user_id = '{ctx.author.id}'")
+                    conn.commit()
+                    await ctx.channel.send(embed=embed)
+                else:
+                    embed = discord.Embed(title="Status error", description=f"{user.mention} heeft nog geen account in de economie.", color=discord.Color.red())
+                    await ctx.channel.send(embed=embed)
+            else:
+                embed = discord.Embed(title="Status error", description=f"{user.mention} heeft nog geen account in de economie.", color=discord.Color.red())
+                await ctx.channel.send(embed=embed)
+
 
 
