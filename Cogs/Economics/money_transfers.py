@@ -89,15 +89,19 @@ class money_transfer(commands.Cog):
                     result2 = cur.execute(u)
                     own_amounts = result2.fetchall()
                     own_amount = own_amounts[0][0]
-                    embed = discord.Embed(title="Gegund", color=discord.Color.purple())
+                    embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
                     if amount > own_amount:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet meer geven dan je hebt!", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
-                        return
-                    cur.execute(f"UPDATE economic SET bal = {own_amount - amount} WHERE user_id = '{ctx.author.id}'")
-                    cur.execute(f"UPDATE economic SET bal = {receivers_amount + amount} WHERE user_id = '{ctx.author.id}'")
-                    conn.commit()
-                    await ctx.channel.send(embed=embed)
+                        
+                    elif amount < 1:
+                        error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet minder dan 1 euro geven", color=discord.Color.red())
+                        ctx.channel.send(embed=error_embed)
+                    else:
+                        cur.execute(f"UPDATE economic SET bal = {own_amount - amount} WHERE user_id = '{ctx.author.id}'")
+                        cur.execute(f"UPDATE economic SET bal = {receivers_amount + amount} WHERE user_id = '{ctx.author.id}'")
+                        conn.commit()
+                        await ctx.channel.send(embed=embed)
                 else:
                     embed = discord.Embed(title="Status error", description=f"{user.mention} heeft nog geen account in de economie.", color=discord.Color.red())
                     await ctx.channel.send(embed=embed)
