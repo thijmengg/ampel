@@ -84,6 +84,21 @@ class blackjack(commands.Cog):
 
                         await ctx.channel.send(embed=embed)
                         return
+                    elif player_points >21:
+                            newembed=discord.Embed(title="Verloren :(", color=discord.Color.red())
+
+                            newembed.add_field(name="Dealers hand!", value=f"Dealer heeft: {dealers_points} punten", inline=False) 
+                            newembed.add_field(name="Jou hand!", value=f"Je hebt: {player_points} punten", inline=False)            
+
+                            newembed.add_field(name="Inleg", value=f"Je inleg is €{bet}", inline=False)
+
+                            newembed.add_field(name="Verloren", value="Helaas heb je verloren! Je bent de inleg kwijt!")
+
+                            #reactions = ['Cogs/Economics/Casino/cardspng/king_of_diamonds2.png', 'Cogs/Economics/Casino/cardspng/9_of_spades.png']  # Replace with the actual file names
+                            cur.execute(f"UPDATE economic SET bal = {current_player_amount - bet} WHERE user_id = '{ctx.author.id}'")
+                            conn.commit()
+                            await ctx.channel.send(embed=newembed) 
+                            return 
 
                     embed=discord.Embed(title="BlackJack!", color=discord.Color.yellow())
 
