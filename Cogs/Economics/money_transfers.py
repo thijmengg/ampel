@@ -93,6 +93,9 @@ class money_transfer(commands.Cog):
                     result2 = cur.execute(u)
                     own_amounts = result2.fetchall()
                     own_amount = own_amounts[0][0]
+
+                    embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
+
                     print(f"""
                     eigen amount: €{own_amount},
                     receivers amount: €{current_receivers_amount},
@@ -101,11 +104,14 @@ class money_transfer(commands.Cog):
                     if amount > own_amount:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet meer geven dan je hebt!", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
+
                     elif amount < 1:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet minder dan 1 euro geven", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
                     else:
+
                         embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
+
                         new_receivers_amount = current_receivers_amount + amount
                         new_owners_amount = own_amount - amount
                         cur.execute(f"UPDATE economic SET bal = {new_owners_amount} WHERE user_id = '{ctx.author.id}'")
