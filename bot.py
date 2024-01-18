@@ -12,7 +12,7 @@ from Cogs.Economics.work import work
 from Cogs.Economics.money_transfers import money_transfer
 from Cogs.Listeners.cooldown import cooldown_listener
 from Cogs.Economics.Casino.blackjack import blackjack
-from Cogs.Random_commands import gay
+from Cogs.Games.wherewolf.start_game import start_wherewolf_game
 
 
 
@@ -45,8 +45,9 @@ async def on_ready():
     await client.add_cog(money_transfer(client))
     await client.add_cog(cooldown_listener(client))
     await client.add_cog(blackjack(client))
+    await client.add_cog(start_wherewolf_game(client))
 
-
+    print("all Cogs loaded")
     #In construction
     # await client.add_cog(gay(client))
 

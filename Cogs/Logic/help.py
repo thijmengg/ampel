@@ -8,6 +8,7 @@ Commands you can use: \n
 .cclist \t - Krijg een complete lijst met alle custom commands en de reacties!
 .idee \t - Heb jij een goed idee voor de bot? Of een fout gevonden, volg dan deze link.
 .start <index> \t - Registreer je in de Ampel Familie database en start met het spelen van alle spellen.
+.start_weerwolven \t - Ga weerwolven spelen (minimaal 4, maximaal 10 spelers)
 """
 
 help_help_string = """

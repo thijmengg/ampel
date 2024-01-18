@@ -42,16 +42,20 @@ class money_transfer(commands.Cog):
                     embed = discord.Embed(title="Roof", color=discord.Color.purple())
                     
                     if(random.randint(1,100) >= 45):
-                        amount = random.randint(0,int(victim_amount/5))
-                        embed.add_field(name="Status", value=f"Een prachtige roof met een buit van €{amount}. {user.mention} zal vast niet blij zijn!", inline=False)
-                        new_victim_amount = victim_amount - amount
-                        new_own_amount = own_amount + amount
-                        q2 = f"""UPDATE economic SET bal = {new_victim_amount} WHERE user_id = '{user.id}'"""
-                        u2 = f"""UPDATE economic SET bal = {new_own_amount} WHERE user_id = '{new_own_amount}'"""
-                        cur.execute(q2)
-                        cur.execute(u2)
-                        embed.add_field(name=f"Nieuw totaal van {ctx.author.name}", value=f"€{new_own_amount}", inline=False)
-                        embed.add_field(name=f"Nieuw totaal van {user.name}", value=f"€{new_victim_amount}", inline=False)
+                        if int(victim_amount/5) >= 1:
+                            
+                            amount = random.randint(1,int(victim_amount/5))
+                            embed.add_field(name="Status", value=f"Een prachtige roof met een buit van €{amount}. {user.mention} zal vast niet blij zijn!", inline=False)
+                            new_victim_amount = victim_amount - amount
+                            new_own_amount = own_amount + amount
+                            q2 = f"""UPDATE economic SET bal = {new_victim_amount} WHERE user_id = '{user.id}'"""
+                            u2 = f"""UPDATE economic SET bal = {new_own_amount} WHERE user_id = '{new_own_amount}'"""
+                            cur.execute(q2)
+                            cur.execute(u2)
+                            embed.add_field(name=f"Nieuw totaal van {ctx.author.name}", value=f"€{new_own_amount}", inline=False)
+                            embed.add_field(name=f"Nieuw totaal van {user.name}", value=f"€{new_victim_amount}", inline=False)
+                        else:
+                            embed.add_field(name=f"{user.mention} is broke!", value=f"{user.mention} is broke. En je hebt daarom niks kunnen stelen!")
                     else:
                         amount = random.randint(0,int(own_amount/10))
                         embed.add_field(name="Status", value=f"Je bent gepakt, je betaald €{amount} aan {user.mention} als schadevergoeding")
@@ -89,7 +93,9 @@ class money_transfer(commands.Cog):
                     result2 = cur.execute(u)
                     own_amounts = result2.fetchall()
                     own_amount = own_amounts[0][0]
+
                     embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
+
                     print(f"""
                     eigen amount: €{own_amount},
                     receivers amount: €{current_receivers_amount},
@@ -98,11 +104,14 @@ class money_transfer(commands.Cog):
                     if amount > own_amount:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet meer geven dan je hebt!", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
-                        
+
                     elif amount < 1:
                         error_embed = discord.Embed(title="Dat kan niet", description="Je kunt niet minder dan 1 euro geven", color=discord.Color.red())
                         ctx.channel.send(embed=error_embed)
                     else:
+
+                        embed = discord.Embed(title="Gegund", color=discord.Color.purple(), description=f"Je hebt {user.mention} €{amount} gegeven!")
+
                         new_receivers_amount = current_receivers_amount + amount
                         new_owners_amount = own_amount - amount
                         cur.execute(f"UPDATE economic SET bal = {new_owners_amount} WHERE user_id = '{ctx.author.id}'")
