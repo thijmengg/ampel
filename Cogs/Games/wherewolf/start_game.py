@@ -193,7 +193,7 @@ class start_wherewolf_game(commands.Cog):
                     if str(reaction_of_wolf.emoji) == c_reactions[r]:
                         cupid_votes.append(r+1)
                 
-                vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(current_votes[-1])} - {str(playing_users[current_votes[-1]-1].name)} gestemd")
+                vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(cupid_votes[-1])} - {str(playing_users[cupid_votes[-1]-1].name)} gestemd")
                 await c.send(embed=vote_embed)
             except asyncio.TimeoutError:
                 system_choice = random.randint(0, len(playing_users)-1)
@@ -208,7 +208,7 @@ class start_wherewolf_game(commands.Cog):
                     if str(reaction_of_wolf.emoji) == c_reactions[r]:
                         cupid_votes.append(r+1)
                 
-                vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(current_votes[-1])} - {str(playing_users[current_votes[-1]-1].name)} gestemd")
+                vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(cupid_votes[-1])} - {str(playing_users[cupid_votes[-1]-1].name)} gestemd")
                 await c.send(embed=vote_embed)
             except asyncio.TimeoutError:
                 system_choice = random.randint(0, len(playing_users)-1)
@@ -251,7 +251,7 @@ class start_wherewolf_game(commands.Cog):
                 for vote in ziener_votes:
                     embed.add_field(name="Een ziener voor jou heeft gestemd op: ", value=f"{vote} - {playing_users[vote-1].name}", inline=False)
                 
-                z_message = await w.send(embed=embed)
+                z_message = await z.send(embed=embed)
                 z_reactions = ["1️⃣","2️⃣","3️⃣"," 4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣", "🔟"]  # Replace with the emojis you want to use
                 
                 for i in range(len(playing_users)):
@@ -268,7 +268,7 @@ class start_wherewolf_game(commands.Cog):
                         if str(reaction_of_wolf.emoji) == z_reactions[r]:
                             ziener_votes.append(r+1)
                     
-                    vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(current_votes[-1])} - {str(playing_users[current_votes[-1]-1].name)} gestemd")
+                    vote_embed = discord.Embed(color=discord.Color.green(), title="Je hebt succesvol gestemd!", description=f"Je hebt succesvol op: {str(ziener_votes[-1])} - {str(playing_users[ziener_votes[-1]-1].name)} gestemd")
                     await z.send(embed=vote_embed)
                 except asyncio.TimeoutError:
                     system_choice = random.randint(0, len(playing_users)-1)
@@ -278,7 +278,7 @@ class start_wherewolf_game(commands.Cog):
             
             #All zieners have voted!
             # Use Counter to count occurrences
-            counter = Counter(current_votes)
+            counter = Counter(ziener_votes)
 
             # Find the most common object
             most_common_object = counter.most_common(1)[0][0]
