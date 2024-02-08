@@ -36,7 +36,7 @@ class start_wherewolf_game(commands.Cog):
 
      
         # Wait for reactions from users who reacted with '✅' in the past 90 seconds
-
+        waiting_seconds = seconds
         while seconds > 0:
             await asyncio.sleep(1)
             seconds -= 1
@@ -54,7 +54,7 @@ class start_wherewolf_game(commands.Cog):
                         playing_users.append(user)
 
         if len(playing_users) < MIN_AMOUNT_OF_PLAYERS:
-            embed = discord.Embed(title="Niet genoeg mensen hebben gereageerd!", description=f"Er moeten binnen {seconds} seconden, minimaal {MIN_AMOUNT_OF_PLAYERS} spelers hebben opgegeven, anders beëindigd het spel!", color=discord.Color.red())
+            embed = discord.Embed(title="Niet genoeg mensen hebben gereageerd!", description=f"Er moeten binnen {waiting_seconds} seconden, minimaal {MIN_AMOUNT_OF_PLAYERS} spelers hebben opgegeven, anders beëindigd het spel!", color=discord.Color.red())
             await ctx.channel.send(embed=embed)
             return
         
